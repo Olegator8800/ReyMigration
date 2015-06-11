@@ -1,0 +1,30 @@
+{
+    "name": "rey/migration",
+    "type": "library",
+    "description": "Bitrix migration based on Doctrine migration component",
+    "keywords": [
+        "bitrix",
+        "migration"
+    ],
+    "authors": [
+        {
+            "name": "Oleg Filimoshin",
+            "email": "Olegator8800@yandex.ru"
+        },
+        {
+            "name": "Nikita Krasnoyartsev",
+            "email": "i@knone.ru"
+        }
+    ],
+    "homepage": "https://github.com",
+    "license": "MIT",
+    "require": {
+        "php" : ">=5.3.0",
+        "doctrine/migrations" : "1.0.*@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rey\\BitrixMigrations\\": "src"
+        }
+    }
+}
