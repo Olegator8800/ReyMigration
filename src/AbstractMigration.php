@@ -11,13 +11,28 @@ use Doctrine\DBAL\Migrations\AbstractMigration as DoctrineAbstractMigration;
 abstract class AbstractMigration extends DoctrineAbstractMigration
 {
     /**
-     * @var bool | string
+     * @var null|string
      */
-    protected $personalRoot = false;
+    private $personalRoot = null;
 
+    /**
+     * Установить $_SERVER['BX_PERSONAL_ROOT']
+     *
+     * @param null|string $path
+     */
     protected function setPersonalRoot($path)
     {
         $this->personalRoot = $path;
+    }
+
+    /**
+     * Получить $_SERVER['BX_PERSONAL_ROOT']
+     *
+     * @return null|string
+     */
+    protected function getPersonalRoot()
+    {
+        return $this->personalRoot;
     }
 
     /**
@@ -27,7 +42,7 @@ abstract class AbstractMigration extends DoctrineAbstractMigration
      */
     protected function getDocumentRoot()
     {
-        return '';
+        return $_SERVER['DOCUMENT_ROOT'];
     }
 
     /**
@@ -38,11 +53,13 @@ abstract class AbstractMigration extends DoctrineAbstractMigration
      */
     protected function enableBitrixAPI($siteLang = 'ru', $siteId = 's1')
     {
+        global $DBType, $DBHost, $DBLogin, $DBPassword, $DBName, $DBDebug;
+
         ini_set('error_reporting', E_ERROR);
         $_SERVER['DOCUMENT_ROOT'] = $this->getDocumentRoot();
 
-        if ($this->personalRoot) {
-            $_SERVER['BX_PERSONAL_ROOT'] = $this->personalRoot;
+        if ($this->getPersonalRoot()) {
+            $_SERVER['BX_PERSONAL_ROOT'] = $this->getPersonalRoot();
         }
 
         $_SERVER['HTTP_X_REAL_IP'] = '127.0.0.1';
@@ -58,7 +75,7 @@ abstract class AbstractMigration extends DoctrineAbstractMigration
 
         $this->disableCacheIBlock();
 
-        require($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_before.php');
+        require $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.php';
 
         //Подключение автозагрузчика Bitrix
         if(function_exists('\__autoload')){
@@ -69,7 +86,8 @@ abstract class AbstractMigration extends DoctrineAbstractMigration
     /**
      * Выключает кеширование инфоблоков, типов инфоблоков и свойств
      */
-    private function disableCacheIBlock() {
+    private function disableCacheIBlock()
+    {
         define('CACHED_b_iblock_type', false);
         define('CACHED_b_iblock', false);
         define('CACHED_b_iblock_property_enum', false);
