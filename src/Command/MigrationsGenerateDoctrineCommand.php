@@ -35,9 +35,9 @@ class MigrationsGenerateDoctrineCommand extends GenerateCommand
     /**
      * @param \Rey\BitrixMigrations\Configuration\DoctrineConfiguration $configuration
      * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param mixed $version
-     * @param null $up
-     * @param null $down
+     * @param string $version
+     * @param string|null $up
+     * @param string|null $down
      *
      * @return string
      */
