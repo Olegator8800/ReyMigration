@@ -4,7 +4,7 @@ namespace Rey\BitrixMigrations\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Rey\BitrixMigrations\Configuration;
+use Rey\BitrixMigrations\Configuration\DoctrineConfiguration as Configuration;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand;
 
 class MigrationsGenerateDoctrineCommand extends GenerateCommand
@@ -33,7 +33,13 @@ class MigrationsGenerateDoctrineCommand extends GenerateCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Rey\BitrixMigrations\Configuration\DoctrineConfiguration $configuration
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param mixed $version
+     * @param null $up
+     * @param null $down
+     *
+     * @return string
      */
     protected function generateMigration(Configuration $configuration, InputInterface $input, $version, $up = null, $down = null)
     {
