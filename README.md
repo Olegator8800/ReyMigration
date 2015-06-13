@@ -19,17 +19,21 @@ Composer:
 
     #!/usr/bin/env php
     <?php
+
     use Symfony\Component\Console\Application;
     use Doctrine\Common\Annotations\AnnotationRegistry;
     use Rey\BitrixMigrations\Configuration;
     use Rey\BitrixMigrations\MigrationManager;
-    
+
+    //указать путь до проекта
+    $_SERVER['DOCUMENT_ROOT'] = __DIR__.'/../htdocs/';
+
     $loader = require __DIR__.'/../vendor/autoload.php';
     AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
     
     $console = new Application('console');
     $config = new Configuration();
-    
+
     $config->setConnectionParameters(
                             array(
                                 'dbname' => 'mydatabase',
@@ -60,6 +64,36 @@ Composer:
     $ php bin/console bx:migrations:generate
 
 Будет сгенерированная пустая миграция в дириктории %migrations_directory
+
+Класс миграции по умолчанию унаследован от Rey\BitrixMigrations\AbstractMigration (можно переопределить параметром %abstract_class в MigrationsParameters)
+
+Для использования api битрикса достаточно вызвать метод $this->enableBitrixAPI();
+
+    public function up(Schema $schema)
+    {
+        $this->enableBitrixAPI();
+        ...
+
+Для выполнения одиночной миграции выполнить:
+
+    $ php bin/console bx:migrations:execute %номер_миграции% --up
+
+Для отката выполнить коману с ключем --down
+
+    $ php bin/console bx:migrations:execute %номер_миграции% --down
+
+Для выполнения всех ненакаченных миграцйи выполнить:
+
+    $ php bin/console bx:migrations:migrate
+
+Для просмотра статуса миграций:
+
+    $ php bin/console bx:migrations:status
+
+Для детальной информации по каждой миграции выполнить с ключом --show-versions
+
+    $ php bin/console bx:migrations:status --show-versions
+
 
 MySql Lite Driver
 ------------
