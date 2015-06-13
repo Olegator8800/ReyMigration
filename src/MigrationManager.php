@@ -128,7 +128,6 @@ class MigrationManager
 
         $console->addCommands(array(
             new Command\MigrationsExecuteDoctrineCommand(),
-            new Command\MigrationsExecuteDoctrineCommand(),
             new Command\MigrationsGenerateDoctrineCommand(),
             new Command\MigrationsMigrateDoctrineCommand(),
             new Command\MigrationsStatusDoctrineCommand(),
