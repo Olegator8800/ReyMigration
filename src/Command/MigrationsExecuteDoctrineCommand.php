@@ -14,7 +14,7 @@ class MigrationsExecuteDoctrineCommand extends ExecuteCommand
     protected function configure()
     {
         parent::configure();
-        $this->setName('bx:' . $this->getName());
+        $this->setName('bitrix:' . $this->getName());
     }
 
     /**

@@ -61,7 +61,7 @@ Composer:
 
 Для генерации новой миграции выполнить команду:
 
-    $ php bin/console bx:migrations:generate
+    $ php bin/console bitrix:migrations:generate
 
 Будет сгенерированная пустая миграция в дириктории %migrations_directory
 
@@ -76,23 +76,23 @@ Composer:
 
 Для выполнения одиночной миграции выполнить:
 
-    $ php bin/console bx:migrations:execute %номер_миграции% --up
+    $ php bin/console bitrix:migrations:execute %номер_миграции% --up
 
 Для отката выполнить коману с ключем --down
 
-    $ php bin/console bx:migrations:execute %номер_миграции% --down
+    $ php bin/console bitrix:migrations:execute %номер_миграции% --down
 
 Для выполнения всех ненакаченных миграцйи выполнить:
 
-    $ php bin/console bx:migrations:migrate
+    $ php bin/console bitrix:migrations:migrate
 
 Для просмотра статуса миграций:
 
-    $ php bin/console bx:migrations:status
+    $ php bin/console bitrix:migrations:status
 
 Для детальной информации по каждой миграции выполнить с ключом --show-versions
 
-    $ php bin/console bx:migrations:status --show-versions
+    $ php bin/console bitrix:migrations:status --show-versions
 
 
 MySql Lite Driver

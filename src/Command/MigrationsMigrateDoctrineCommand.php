@@ -14,7 +14,7 @@ class MigrationsMigrateDoctrineCommand extends MigrateCommand
     protected function configure()
     {
         parent::configure();
-        $this->setName('bx:' . $this->getName());
+        $this->setName('bitrix:' . $this->getName());
     }
 
     /**
