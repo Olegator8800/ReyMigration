@@ -21,7 +21,12 @@ class Configuration implements ConfigurationInterface
     /**
      * @var \Doctrine\DBAL\Connection|null
      */
-    protected $connection = null;
+    private $doctrineConnection = null;
+
+    /**
+     * @var \Rey\BitrixMigrations\Configuration\DoctrineConfiguration|null
+     */
+    private $doctrineConfiguration = null;
 
     /**
      * Sets the default values for parameters
@@ -78,7 +83,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getDoctrineDbConnection()
     {
-        if ($this->connection === null) {
+        if ($this->doctrineConnection === null) {
             $connection = DoctrineDriverManager::getConnection($this->getConnectionParameters());
 
             if ($connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\MySqlPlatform) {
@@ -87,10 +92,10 @@ class Configuration implements ConfigurationInterface
                 $abstractPlatform->registerDoctrineTypeMapping('set', 'string');
             }
 
-            $this->connection = $connection;
+            $this->doctrineConnection = $connection;
         }
 
-        return $this->connection;
+        return $this->doctrineConnection;
     }
 
     /**
@@ -98,15 +103,19 @@ class Configuration implements ConfigurationInterface
      */
     public function getDoctrineConfiguration()
     {
-        $params = $this->getMigrationsParameters();
-        $config = new DoctrineConfiguration($this->getDoctrineDbConnection());
+        if ($this->doctrineConfiguration === null) {
+            $params = $this->getMigrationsParameters();
+            $config = new DoctrineConfiguration($this->getDoctrineDbConnection());
 
-        $config->setName($params['name']);
-        $config->setMigrationsDirectory($params['migrations_directory']);
-        $config->setMigrationsNamespace($params['migrations_namespace']);
-        $config->setMigrationsTableName($params['table_name']);
-        $config->setMigrationsAbstractClass($params['abstract_class']);
+            $config->setName($params['name']);
+            $config->setMigrationsDirectory($params['migrations_directory']);
+            $config->setMigrationsNamespace($params['migrations_namespace']);
+            $config->setMigrationsTableName($params['table_name']);
+            $config->setMigrationsAbstractClass($params['abstract_class']);
 
-        return $config;
+            $this->doctrineConfiguration = $config;
+        }
+
+        return $this->doctrineConfiguration;
     }
 }
