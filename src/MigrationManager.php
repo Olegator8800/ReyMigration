@@ -49,8 +49,8 @@ class MigrationManager
      */
     public function init()
     {
-        $this->helpersInit();
-        $this->commandsInit();
+        $this->initializeHelpers();
+        $this->registerCommands();
     }
 
     /**
@@ -94,7 +94,7 @@ class MigrationManager
     /**
      * Initialize helpers for console
      */
-    protected function helpersInit()
+    protected function initializeHelpers()
     {
         $config = $this->getConfiguration();
         $console = $this->getConsole();
@@ -120,9 +120,9 @@ class MigrationManager
     }
 
     /**
-     * Initialize commands for console
+     * Register commands for console
      */
-    protected function commandsInit()
+    protected function registerCommands()
     {
         $console = $this->getConsole();
 
