@@ -16,18 +16,4 @@ class MigrationsVersionDoctrineCommand extends VersionCommand
         parent::configure();
         $this->setName('bitrix:' . $this->getName());
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
-        if ($this->getApplication()->getHelperSet()->has('migrations')){
-            $configuration = $this->getHelper('migrations')->getConfiguration();
-            $configuration->registerMigrationsFromDirectory($configuration->getMigrationsDirectory());
-            $this->setMigrationConfiguration($configuration);
-        }
-
-        parent::execute($input, $output);
-    }
 }

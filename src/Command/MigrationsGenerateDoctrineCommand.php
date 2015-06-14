@@ -19,20 +19,6 @@ class MigrationsGenerateDoctrineCommand extends GenerateCommand
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
-        if ($this->getApplication()->getHelperSet()->has('migrations')) {
-            $configuration = $this->getHelper('migrations')->getConfiguration();
-            $configuration->registerMigrationsFromDirectory($configuration->getMigrationsDirectory());
-            $this->setMigrationConfiguration($configuration);
-        }
-
-        parent::execute($input, $output);
-    }
-
-    /**
      * @param \Rey\BitrixMigrations\Configuration\DoctrineConfiguration $configuration
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param string $version

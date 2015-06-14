@@ -111,6 +111,8 @@ class MigrationManager
 
         if (!$helperSet->has('migrations')) {
             $migrationConfiguration = $config->getDoctrineConfiguration();
+            $migrationConfiguration->registerMigrationsFromDirectory($migrationConfiguration->getMigrationsDirectory());
+
             $helperSet->set(new ConfigurationHelper($migrationConfiguration), 'migrations');
         }
 
@@ -120,18 +122,36 @@ class MigrationManager
     }
 
     /**
+     * Get a list of commands
+     *
+     * @return string[] Command name
+     */
+    protected function getCommandsList()
+    {
+        return array(
+                'MigrationsExecuteDoctrineCommand',
+                'MigrationsGenerateDoctrineCommand',
+                'MigrationsMigrateDoctrineCommand',
+                'MigrationsStatusDoctrineCommand',
+                'MigrationsVersionDoctrineCommand',
+            );
+    }
+
+    /**
      * Register commands for console
      */
     protected function registerCommands()
     {
         $console = $this->getConsole();
+        $commandsList = $this->getCommandsList();
+        $doctrineConfig = $this->getConfiguration()->getDoctrineConfiguration();
 
-        $console->addCommands(array(
-            new Command\MigrationsExecuteDoctrineCommand(),
-            new Command\MigrationsGenerateDoctrineCommand(),
-            new Command\MigrationsMigrateDoctrineCommand(),
-            new Command\MigrationsStatusDoctrineCommand(),
-            new Command\MigrationsVersionDoctrineCommand(),
-        ));
+        foreach ($commandsList as $commandName) {
+            $commandClass = sprintf('\Rey\BitrixMigrations\Command\%s', $commandName);
+            $command = new $commandClass();
+            $command->setMigrationConfiguration($doctrineConfig);
+
+            $console->add($command);
+        }
     }
 }
