@@ -16,7 +16,7 @@
             "email": "i@knone.ru"
         }
     ],
-    "homepage": "https://github.com",
+    "homepage": "https://github.com/Olegator8800/ReyMigration",
     "license": "MIT",
     "require": {
         "php" : ">=5.3.0",
