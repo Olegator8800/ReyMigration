@@ -5,34 +5,19 @@ namespace Rey\BitrixMigrations;
 use Doctrine\DBAL\Migrations\AbstractMigration as DoctrineAbstractMigration;
 
 /**
- * The abstract class for the implementation of migration
- * Сlass contains helper functions for working with Bitrix
+ * Абстрактный класс для миграции
+ * Содержит вспомогательные функции для работы с api Битрикса
  */
 abstract class AbstractMigration extends DoctrineAbstractMigration
 {
     /**
-     * @var null|string
-     */
-    private $personalRoot = null;
-
-    /**
-     * Установить $_SERVER['BX_PERSONAL_ROOT']
+     * Получить формат даты и времени
      *
-     * @param null|string $path
+     * @return string
      */
-    protected function setPersonalRoot($path)
+    protected function getDateTimeFormat()
     {
-        $this->personalRoot = $path;
-    }
-
-    /**
-     * Получить $_SERVER['BX_PERSONAL_ROOT']
-     *
-     * @return null|string
-     */
-    protected function getPersonalRoot()
-    {
-        return $this->personalRoot;
+        return 'DD.MM.YYYY HH:MI:SS';
     }
 
     /**
@@ -46,6 +31,21 @@ abstract class AbstractMigration extends DoctrineAbstractMigration
     }
 
     /**
+     * Получить путь к personal root сайта
+     *
+     * Переопределить метод получения путей до дириктории PersonalRoot
+     * в зависимости от Id сайта (при многосайтовости).
+     *
+     * @param string $siteId Id сайта
+     *
+     * @return null|string
+     */
+    protected function getPersonalRoot($siteId)
+    {
+        return $_SERVER['BX_PERSONAL_ROOT'];
+    }
+
+    /**
      * Подключить api Битрикса
      *
      * @param  string $siteLang Языковая версия сайта
@@ -55,23 +55,16 @@ abstract class AbstractMigration extends DoctrineAbstractMigration
     {
         global $DBType, $DBHost, $DBLogin, $DBPassword, $DBName, $DBDebug;
 
-        ini_set('error_reporting', E_ERROR);
         $_SERVER['DOCUMENT_ROOT'] = $this->getDocumentRoot();
-
-        if ($this->getPersonalRoot()) {
-            $_SERVER['BX_PERSONAL_ROOT'] = $this->getPersonalRoot();
-        }
-
+        $_SERVER['BX_PERSONAL_ROOT'] = $this->getPersonalRoot($siteId);
         $_SERVER['HTTP_X_REAL_IP'] = '127.0.0.1';
 
-        $sDateFormat = 'DD.MM.YYYY HH:MI:SS';
-
-        define('FORMAT_DATETIME', $sDateFormat); // формат даты/времени
-        define('SITE_ID', $siteId); // символьный идентификатор сайта
-        define('LANG', $siteLang); // символьный идентификатор языка
-        define('NO_KEEP_STATISTIC', true); //не вести статистику
-        define('NOT_CHECK_PERMISSIONS', true); //не проверять права доступа
-        define('BX_CLUSTER_GROUP', -1); // некоторое время агенты будут выполнять только на первичные кластерные группы (1)
+        define('FORMAT_DATETIME', $this->getDateTimeFormat());
+        define('SITE_ID', $siteId);
+        define('LANG', $siteLang);
+        define('NO_KEEP_STATISTIC', true);
+        define('NOT_CHECK_PERMISSIONS', true);
+        define('BX_CLUSTER_GROUP', -1);
 
         $this->disableCacheIBlock();
 
@@ -85,6 +78,8 @@ abstract class AbstractMigration extends DoctrineAbstractMigration
 
     /**
      * Выключает кеширование инфоблоков, типов инфоблоков и свойств
+     *
+     * Решает проблему при создание типа инфоблока и добавление новых инфоблоков в одной миграции
      */
     private function disableCacheIBlock()
     {
