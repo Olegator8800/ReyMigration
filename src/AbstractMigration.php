@@ -40,7 +40,7 @@ abstract class AbstractMigration extends DoctrineAbstractMigration
      *
      * @return null|string
      */
-    protected function getPersonalRoot($siteId)
+    protected function getPersonalRoot()
     {
         return $_SERVER['BX_PERSONAL_ROOT'];
     }
