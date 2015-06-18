@@ -10,6 +10,9 @@ use Doctrine\DBAL\Migrations\AbstractMigration as DoctrineAbstractMigration;
  */
 abstract class AbstractMigration extends DoctrineAbstractMigration
 {
+    /**
+     * @var string
+     */
     private $siteId;
 
     /**
@@ -79,6 +82,7 @@ abstract class AbstractMigration extends DoctrineAbstractMigration
     }
 
     /**
+     * @throws BitrixApiDisableException
      * @return string
      */
     protected function getSiteId()
