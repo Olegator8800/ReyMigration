@@ -2,8 +2,7 @@
 
 Битрикс миграции на основе компонента Doctrine Migration
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Olegator8800/ReyMigration/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Olegator8800/ReyMigration/?branch=master)
-
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Olegator8800/ReyMigration/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Olegator8800/ReyMigration/?branch=master) [![Join the chat at https://gitter.im/Olegator8800/ReyMigration](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Olegator8800/ReyMigration?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Установка
 ------------
