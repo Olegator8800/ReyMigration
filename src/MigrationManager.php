@@ -126,7 +126,7 @@ class MigrationManager
      *
      * @return string[] Command name
      */
-    protected function getCommandsList()
+    protected function getCommandList()
     {
         return array(
                 'MigrationsExecuteDoctrineCommand',
@@ -143,7 +143,7 @@ class MigrationManager
     protected function registerCommands()
     {
         $console = $this->getConsole();
-        $commandsList = $this->getCommandsList();
+        $commandsList = $this->getCommandList();
         $doctrineConfig = $this->getConfiguration()->getDoctrineConfiguration();
 
         foreach ($commandsList as $commandName) {
