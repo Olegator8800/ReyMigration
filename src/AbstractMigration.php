@@ -51,10 +51,10 @@ abstract class AbstractMigration extends DoctrineAbstractMigration
     /**
      * Подключить api Битрикса
      *
-     * @param string $siteLanguage
+     * @param string $siteLanguageVersion
      * @param string $siteId
      */
-    protected function enableBitrixAPI($siteLanguage = 'ru', $siteId = 's1')
+    protected function enableBitrixAPI($siteLanguageVersion = 'ru', $siteId = 's1')
     {
         global $DBType, $DBHost, $DBLogin, $DBPassword, $DBName, $DBDebug;
 
@@ -66,7 +66,7 @@ abstract class AbstractMigration extends DoctrineAbstractMigration
 
         define('FORMAT_DATETIME', $this->getDateTimeFormat());
         define('SITE_ID', $siteId);
-        define('LANG', $siteLanguage);
+        define('LANG', $siteLanguageVersion);
         define('NO_KEEP_STATISTIC', true);
         define('NOT_CHECK_PERMISSIONS', true);
         define('BX_CLUSTER_GROUP', -1);
