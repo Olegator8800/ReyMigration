@@ -2,7 +2,7 @@
 
 namespace Rey\BitrixMigrations;
 
-class BitrixApiDisableException extends \RuntimeException
+class BitrixApiDisableException extends BitrixMigrationException
 {
     public function __construct()
     {
