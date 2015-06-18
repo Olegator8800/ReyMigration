@@ -5,6 +5,8 @@ namespace Rey\BitrixMigrations;
 use Rey\BitrixMigrations\Configuration\ConfigurationInterface;
 use Rey\BitrixMigrations\Configuration\DoctrineConfiguration;
 use Doctrine\DBAL\DriverManager as DoctrineDriverManager;
+use Doctrine\DBAL\Migrations\OutputWriter;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
  * Class for storing MigrationManager configuration
@@ -105,7 +107,9 @@ class Configuration implements ConfigurationInterface
     {
         if ($this->doctrineConfiguration === null) {
             $params = $this->getMigrationsParameters();
-            $config = new DoctrineConfiguration($this->getDoctrineDbConnection());
+
+            $output = $this->getOutputWriter();
+            $config = new DoctrineConfiguration($this->getDoctrineDbConnection(), $output);
 
             $config->setName($params['name']);
             $config->setMigrationsDirectory($params['migrations_directory']);
@@ -117,5 +121,27 @@ class Configuration implements ConfigurationInterface
         }
 
         return $this->doctrineConfiguration;
+    }
+
+    /**
+     * Get Doctrine OutputWriter
+     *
+     * @return \Doctrine\DBAL\Migrations\OutputWriter
+     */
+    private function getOutputWriter()
+    {
+        $consoleOutput = new ConsoleOutput();
+        $consoleOutput->setDecorated(true);
+
+        $outputWriter = new OutputWriter(function($msg) use($consoleOutput) {
+            //intercept errors message when empty sql
+            if (strpos($msg, 'was executed but did not result in any SQL statements.</error>') !== false) {
+                return;
+            }
+
+            $consoleOutput->writeln($msg);
+        });
+
+        return $outputWriter;
     }
 }
