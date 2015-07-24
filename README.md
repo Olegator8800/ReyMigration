@@ -16,6 +16,7 @@ Composer:
 
 Создать файл н.п bin/console
 
+```php
     #!/usr/bin/env php
     <?php
 
@@ -53,6 +54,7 @@ Composer:
     $bitrixMigrationManager->init();
 
     $console->run();
+```
 
 И запустить из консоли 
 
@@ -68,10 +70,12 @@ Composer:
 
 Для использования api битрикса достаточно вызвать метод $this->enableBitrixAPI();
 
+```php
     public function up(Schema $schema)
     {
         $this->enableBitrixAPI();
         ...
+```
 
 Для выполнения одиночной миграции выполнить:
 
@@ -99,9 +103,11 @@ MySql Lite Driver
 
 При использование MySql для ускорения работы можно воспользоваться "упрощенным" драйвером. Заменить параметр driver на driverClass.
 
+```php
     $config->setConnectionParameters(
                             array(
                                 ...
                                 'driverClass' => new \Rey\BitrixMigrations\Driver\PDOMySql\LiteDriver(),
                             )
                         );
+```
