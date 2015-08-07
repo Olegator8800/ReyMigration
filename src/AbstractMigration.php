@@ -118,7 +118,7 @@ abstract class AbstractMigration extends DoctrineAbstractMigration
         $_SERVER['HTTP_X_REAL_IP'] = '127.0.0.1';
 
         $siteId = $this->getSiteId();
-        $siteLanguageId = getSiteLanguageId();
+        $siteLanguageId = $this->getSiteLanguageId();
 
         define('FORMAT_DATETIME', $this->getDateTimeFormat());
         define('SITE_ID', $siteId);
